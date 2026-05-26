@@ -12,22 +12,42 @@
 
 ```
 blog-api/
-├── cmd/api/              # Точка входа приложения
-│   └── main.go
-├── internal/             # Внутренние пакеты приложения
-│   ├── model/           # Модели данных
-│   ├── handler/         # HTTP хендлеры
-│   ├── service/         # Бизнес-логика
-│   ├── repository/      # Работа с БД
-│   └── middleware/      # HTTP middleware
-├── pkg/                 # Переиспользуемые пакеты
-│   ├── auth/           # JWT и пароли
-│   └── database/       # Подключение к БД
-├── migrations/         # SQL миграции
-├── docker-compose.yml  # PostgreSQL и Adminer
-├── .env.example        # Пример конфигурации
-├── go.mod
-└── README.md
+├── cmd/
+│   └── migrate/
+│       └── main.go                 # Утилита для выполнения миграций БД
+├── internal/
+│   ├── handler/                  # HTTP‑хендлеры (контроллеры)
+│   │   ├── auth_handler.go       # Хендлеры аутентификации (регистрация, вход)
+│   │   ├── post_handler.go       # Хендлеры для работы с постами
+│   │   └── comment_handler.go    # Хендлеры для работы с комментариями
+│   ├── middleware/               # Middleware для HTTP‑сервера
+│   │   ├── auth_middleware.go   # Middleware проверки JWT‑токена
+│   │   └── logging_middleware.go # Middleware логирования запросов
+│   ├── model/                  # Модели данных и DTO
+│   │   └── models.go             # Структуры User, Post, Comment и запросы/ответы API
+│   ├── repository/             # Репозитории для работы с БД
+│   │   ├── user_repository.go  # Репозиторий пользователей
+│   │   ├── post_repository.go  # Репозиторий постов
+│   │   └── comment_repository.go # Репозиторий комментариев
+│   └── service/                # Бизнес‑логика приложения
+│       ├── user_service.go     # Сервис для работы с пользователями (аутентификация, регистрация)
+│       ├── post_service.go     # Сервис для работы с постами
+│       └── comment_service.go  # Сервис для работы с комментариями
+├── migrations/                 # SQL‑миграции для БД
+│   ├── 001_init.sql          # Миграция: создание таблиц users, posts, comments
+│   └── 002_add_indexes.sql   # Миграция: добавление индексов для оптимизации
+├── config/
+│   └── config.go               # Загрузка конфигурации из .env
+├── pkg/
+│   └── jwt/
+│       └── jwt.go              # Утилиты для работы с JWT (генерация, валидация)
+├── .env.example               # Шаблон файла окружения
+├── docker-compose.yml         # Конфигурация Docker для PostgreSQL
+├── go.mod                   # Зависимости Go‑модуля
+├── go.sum                   # Чексуммы зависимостей
+├── main.go                  # Точка входа приложения (запуск HTTP‑сервера)
+└── README.md                # Документация: инструкция по запуску, примеры запросов
+
 ```
 ## Функциональность
 
